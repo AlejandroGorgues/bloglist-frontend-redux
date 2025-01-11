@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { addLike, removeBlog } from "../reducers/blogReducer";
 import { useSelector } from "react-redux";
 const Blog = ({ blog }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -12,7 +12,7 @@ const Blog = ({ blog }) => {
     marginBottom: 5,
   };
   const [visible, setVisible] = useState(false);
-  const user = useSelector((state) => state.user)
+  const user = useSelector((state) => state.user);
 
   const showWhenVisible = { display: visible ? "" : "none" };
   const showIfSameUser = {
@@ -25,7 +25,7 @@ const Blog = ({ blog }) => {
 
   const updateBLog = async (event) => {
     event.preventDefault();
-    dispatch(addLike({...blog, likes:blog.likes+1}))
+    dispatch(addLike({ ...blog, likes: blog.likes + 1 }));
   };
 
   const deleteBlog = async (event) => {

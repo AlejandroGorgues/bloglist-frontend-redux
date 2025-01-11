@@ -5,14 +5,14 @@ import Notification from "./components/Notification.jsx";
 import BlogForm from "./components/BlogForm.jsx";
 import Togglable from "./components/Togglable.jsx";
 import blogService from "./services/blogs";
-import {useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer.js";
 import { setUser } from "./reducers/userReducer.js";
 const App = () => {
-  const dispatch = useDispatch()
-  const blogs = useSelector((state) => state.blogs)
-  const user = useSelector((state) => state.user)
+  const dispatch = useDispatch();
+  const blogs = useSelector((state) => state.blogs);
+  const user = useSelector((state) => state.user);
 
   const blogFormRef = useRef();
 
@@ -26,24 +26,24 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if(user){
-      dispatch(initializeBlogs())
+    if (user) {
+      dispatch(initializeBlogs());
     }
   }, [user]);
 
   const blogForm = () => (
     <Togglable buttonLabel="new blog" ref={blogFormRef}>
-      <BlogForm/>
+      <BlogForm />
     </Togglable>
   );
 
   return (
     <div>
-      <Notification/>
+      <Notification />
       {user === null ? (
         <div>
           <h2>Log in to application</h2>
-          <Login setUser={setUser}/>
+          <Login setUser={setUser} />
         </div>
       ) : (
         <div>
@@ -56,12 +56,7 @@ const App = () => {
         {blogs !== null ? (
           [...blogs]
             .sort((ob1, ob2) => ob2.likes - ob1.likes)
-            .map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-              />
-            ))
+            .map((blog) => <Blog key={blog.id} blog={blog} />)
         ) : (
           <p>no data</p>
         )}

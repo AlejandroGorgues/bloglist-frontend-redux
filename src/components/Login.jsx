@@ -2,11 +2,11 @@ import { useState } from "react";
 import blogsService from "../services/blogs.js";
 import loginService from "../services/login";
 import PropTypes from "prop-types";
-import {useDispatch } from 'react-redux'
-import { setNotification } from '../reducers/notificationReducer.js'
+import { useDispatch } from "react-redux";
+import { setNotification } from "../reducers/notificationReducer.js";
 
 const Login = ({ setUser }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleLogin = async (event) => {
@@ -25,7 +25,7 @@ const Login = ({ setUser }) => {
       setUsername("");
       setPassword("");
     } catch {
-      dispatch(setNotification("Wrong credentials", 'error', 5000))
+      dispatch(setNotification("Wrong credentials", "error", 5000));
     }
   };
 
