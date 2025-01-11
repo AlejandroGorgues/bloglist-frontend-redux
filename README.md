@@ -1,4 +1,4 @@
-# bloglist-frontend-redux
+# bloglist-frontend-redux[text](../bloglist-frontend-query/.gitignore)
 
 This repository contains the code to run the frontend related to the bloglist project developed on the [fullstackopen](https://fullstackopen.com/en/) free course of the Helsinki University.
 
