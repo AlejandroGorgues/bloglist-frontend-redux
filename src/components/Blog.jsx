@@ -1,27 +1,23 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addLike, removeBlog } from "../reducers/blogReducer";
-import { useSelector } from "react-redux";
-const Blog = ({ blog }) => {
-  const dispatch = useDispatch();
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
-  };
-  const [visible, setVisible] = useState(false);
-  const user = useSelector((state) => state.user);
+import { addLike, removeBlog, addComment } from "../reducers/blogReducer";
+import { useDispatch, useSelector } from "react-redux";
+import {  useMatch} from 'react-router-dom'
+import Home from "./Home";
+import { v4 as uuidv4 } from 'uuid';
 
-  const showWhenVisible = { display: visible ? "" : "none" };
-  const showIfSameUser = {
+const Blog = () => {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user);
+  const blogs = useSelector((state) => state.blogs);
+  const [comment, setComment] = useState("");
+  const match = useMatch('/blogs/:id')
+  const blog = match
+    ? blogs.find(blog => blog.id === match.params.id)
+    : undefined
+
+  const showIfSameUser = (blog && user) ?{
     display: user.userId === blog.user.id ? "" : "none",
-  };
-  const buttonLabel = visible ? "hide" : "view";
-  const toggleVisibility = () => {
-    setVisible(!visible);
-  };
+  }: "none";
 
   const updateBLog = async (event) => {
     event.preventDefault();
@@ -34,22 +30,56 @@ const Blog = ({ blog }) => {
       dispatch(removeBlog(blog));
     }
   };
+
+  const handleComment = async (event) =>{
+    event.preventDefault()
+    dispatch(addComment({comment, id:blog.id}));
+  }
   return (
-    <div style={blogStyle} className="blog">
-      {blog.title} {blog.author}
-      <button onClick={toggleVisibility}>{buttonLabel}</button>
-      <div style={showWhenVisible} className="extraInfo">
-        {blog.url}
-        <div>
-          likes {blog.likes} <button onClick={updateBLog}>like</button>{" "}
-        </div>
-        {blog.user.username}
-        <div>
-          <button style={showIfSameUser} onClick={deleteBlog}>
-            remove
-          </button>
-        </div>
-      </div>
+    <div>
+      <Home />
+        {
+          blog !== undefined ? ( 
+          <div className="blog">
+            <div>
+              {blog.title} {blog.author}
+            </div>
+            <div>
+              {blog.url}
+            </div>
+            <div>
+              {blog.likes} likes <button onClick={updateBLog}>like</button>{" "}
+            </div>
+            {blog.user.username}
+            <div>
+              <h3>comments</h3>
+              <form onSubmit={handleComment}>
+                <div>
+                  <input
+                    data-testid="comment"
+                    type="text"
+                    value={comment}
+                    name="Comment"
+                    onChange={({ target }) => setComment(target.value)}
+                  />
+                  <button type="submit">add comment</button>
+                </div>
+              </form>
+              <ul>
+                {
+                  [...blog.comments].map(comment =><li key={uuidv4()}>{comment}</li>)
+                }
+              </ul>
+              {/* <button style={showIfSameUser} onClick={deleteBlog}>
+                remove
+              </button> */}
+            </div>
+          </div>
+          ):(
+            <>
+              No data
+            </>
+          )}
     </div>
   );
 };

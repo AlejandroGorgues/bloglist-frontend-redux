@@ -11,6 +11,8 @@ Features of the whole project are:
 - Visualize associated blogs to the user.
 - Add likes to blogs
 - Remove blogs.
+- Visualize all users and blogs associated.
+- Comment blogs
 
 ## Extra
 

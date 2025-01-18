@@ -6,9 +6,9 @@ const blogsSlice = createSlice({
   name: "blog",
   initialState: [],
   reducers: {
-    modifyLike(state, action) {
-      return state.map((anecdote) =>
-        anecdote.id !== action.payload.id ? anecdote : action.payload,
+    modifyBlog(state, action) {
+      return state.map((blog) =>
+        blog.id !== action.payload.id ? blog : action.payload,
       );
     },
     appendBlog(state, action) {
@@ -18,12 +18,12 @@ const blogsSlice = createSlice({
       return action.payload;
     },
     deleteBlog(state, action) {
-      return state.filter((anecdote) => anecdote.id !== action.payload.id);
+      return state.filter((blog) => blog.id !== action.payload.id);
     },
   },
 });
 
-export const { modifyLike, setBlogs, appendBlog, deleteBlog } =
+export const { modifyBlog, setBlogs, appendBlog, deleteBlog } =
   blogsSlice.actions;
 export const initializeBlogs = () => {
   return async (dispatch) => {
@@ -61,10 +61,29 @@ export const addLike = (content) => {
     const response = await blogsServices.update(content);
     if (response.status == 200) {
       const blog = response.data;
-      dispatch(modifyLike(blog));
+      dispatch(modifyBlog(blog));
       dispatch(
         setNotification(
           `blog ${blog.title} by ${blog.author} updated`,
+          "success",
+          5000,
+        ),
+      );
+    } else {
+      dispatch(setNotification(error.response?.data?.error, "error", 5000));
+    }
+  };
+};
+
+export const addComment = (content) => {
+  return async (dispatch) => {
+    const response = await blogsServices.addComment(content);
+    if (response.status == 201) {
+      const blog = response.data;
+      dispatch(modifyBlog(blog));
+      dispatch(
+        setNotification(
+          `comment ${blog.comments.at(-1)} added`,
           "success",
           5000,
         ),

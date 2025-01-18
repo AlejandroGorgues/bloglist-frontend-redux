@@ -1,11 +1,12 @@
 import { useState } from "react";
 import blogsService from "../services/blogs.js";
+import authorService from "../services/authors.js";
 import loginService from "../services/login";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer.js";
-
-const Login = ({ setUser }) => {
+import { setUser } from "../reducers/userReducer.js";
+const Login = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +22,8 @@ const Login = ({ setUser }) => {
       window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
 
       blogsService.setToken(user.token);
-      setUser(user);
+      authorService.setToken(user.token)
+      dispatch(setUser(user));
       setUsername("");
       setPassword("");
     } catch {
