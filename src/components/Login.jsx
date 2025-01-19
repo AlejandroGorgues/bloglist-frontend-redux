@@ -2,7 +2,6 @@ import { useState } from "react";
 import blogsService from "../services/blogs.js";
 import authorService from "../services/authors.js";
 import loginService from "../services/login";
-import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer.js";
 import { setUser } from "../reducers/userReducer.js";
@@ -10,6 +9,13 @@ const Login = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const formStyle = {
+    textAlign:'center',
+  }
+
+  const buttonStyle={
+    marginTop: '5px'
+  }
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -32,33 +38,42 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          data-testid="username"
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          data-testid="password"
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
+    <div class="container">
+      <form style={formStyle} onSubmit={handleLogin}>
+        <h2>Log in to application</h2>
+        <div class="row">
+          <div class="col-25">
+            <label for="fusername">Username:</label>
+          </div>
+          <div class="col-75">
+            <input
+              data-testid="username"
+              type="text"
+              value={username}
+              name="Username"
+              id="fusername"
+              onChange={({ target }) => setUsername(target.value)}
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="fpassword">Password:</label>
+          </div>
+          <div class="col-75">
+            <input
+              data-testid="password"
+              type="text"
+              value={password}
+              name="Password"
+              id="fpassword"
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </div>
+        </div>
+        <button style={buttonStyle}type="submit" value="Login">Login</button>
+      </form>
+    </div>
   );
-};
-Login.propTypes = {
-  setUser: PropTypes.func.isRequired,
-  setErrorMessage: PropTypes.func.isRequired,
 };
 export default Login;

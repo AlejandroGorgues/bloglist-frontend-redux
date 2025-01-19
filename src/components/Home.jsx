@@ -34,12 +34,11 @@ const Home = () => {
     <div>
       {user === null ? (
         <div>
-          <h2>Log in to application</h2>
           <Login/>
         </div>
       ):(
-        <div>
-          <h2>blog app</h2>
+        <div style={{margin:'auto', justifyItems:'center'}}>
+          <h2>Blog app</h2>
         </div>
       )}
     </div>
